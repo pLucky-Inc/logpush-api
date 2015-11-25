@@ -1,0 +1,20 @@
+{
+  "name": "logpush-api",
+  "version": "1.0.0",
+  "description": "LogPush API documentation",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pLucky-Inc/logpush-api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pLucky-Inc/logpush-api/issues"
+  },
+  "homepage": "https://github.com/pLucky-Inc/logpush-api",
+  "devDependencies": {
+    "aglio": "^2.2.0"
+  }
+}
