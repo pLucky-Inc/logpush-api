@@ -1,0 +1,18 @@
+language: node_js
+cache:
+  directories:
+  - node_modules
+node_js:
+- "0.12"
+
+env:
+  global:
+    - GH_REF: github.com/pLucky-Inc/logpush-api.git
+    - secure: equWakbQSammNw+nxYZ4I8H6tTB1HjFFV7yFZuAG9RpAq3VmOgVaycSf8W7VuxAVoIRnwy//2EouAADqfyhy27wT1eozE3Lj1FrvH9TKfWdokCI0A6sFn/F5CgQ6UDDXuMcP4hazpKSvhVDGGMBWqoYUZOvc4O61pCfgacOM3V0TECEnovxJQ4Zhn+TdCcDbJpvuvRoM8cfC7HNCyFpwo9q4WYyMsU+bD+kX1O1dWq156/5qaU2ldUb530WVRMYPFvoBITfDhKzc3movhTOJZLZD+8vT8SvQ5tJQpTvgqiFafmPXsmnuuUQYm5BDWGq99HOXPkYGq3sDEnxWM1U/WjIEx+HUePiJfDLOQp6REYLAm6YLckIQNXopZVTFKdS19iiUXSAaWsvMeYprQ5RQPtUQ77dRGNPh0SpxISZsVOKcE7nWKAQ1E0KTNRQEdvUnhRr/LId5oTRjvxcHVr1xgdo/1pyAe8PdrC2DZAqS8qOVGANd65Hns1BZgUxpHtaPNMCVHAIDAsn2YShSktvE2piy1q2IU27RgfbvE1hemw4d88Mm3NK4LtOqCcikSQ7tZfdja3DeK4UZOxpTbEXwYovSJHBgt2emgSi5FxGQO89ZZ7l4SZz9Ft2uT/XhLS1MXmAJGvqpsqxXkUwLiGSEIgfgmeZr9lKDFrqVdNHiYtU=
+
+deploy:
+  provider: script
+  script: scripts/deploy.sh
+  skip_cleanup: true
+  on:
+    branch: master
