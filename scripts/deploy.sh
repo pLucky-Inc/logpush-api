@@ -5,11 +5,14 @@ set -x
 BASE_DIR="$(dirname $0)/.."
 TARGET_DIR="$BASE_DIR/target"
 
+DOMAIN="push-api-docs.logbk.net"
+
 rm -rf "$TARGET_DIR"
 "$BASE_DIR/scripts/build.sh"
 
 # go to the out directory and create a *new* Git repo
 cd "$TARGET_DIR"
+echo "$DOMAIN" > CNAME
 git init
 
 # inside this git repo we'll pretend to be a new user
