@@ -36,3 +36,79 @@ HOST: https://push-server-api.logbk.net/v1
         {
           "apiCallId": "2345678901"
         }
+
+## /tag
+
+### POST
+
+特定のデバイスやデバイス集合を対象にして、タグの追加、更新、削除を行う。
+
+device と tagQuery はどちらか一方のみを指定する。
+
+* device: 合致したデバイスを対象にして、タグを追加、更新、削除する。
+  * environment: 開発の場合は `development`。本番の場合は `production`。
+  * platform: `Android` または `iOS`
+  * token:
+    Android の場合は GCM の registration token。
+    iOS の場合は APNs の device token (16進表記)。
+* tagQuery: タグ名とタグ値が該当したデバイス集合を対象にして、タグを追加、更新、削除する。
+  * name: タグ名 (文字列)
+  * value: タグ値
+* tags: 登録または更新するタグの一覧
+  * name: タグ名 (文字列)
+  * value: タグ値
+* deleteTagNames: 削除するタグの一覧
+
+タグ値は
+
+* 文字列
+* `{"dateTime": 1970年1月1日 00:00:00 UTCからのミリ秒数}` 形式の JSON オブジェクト
+
+のいずれかで指定する。
+
++ Request device
+
+    + Headers
+
+            X-Api-Key: API_KEY
+
+    + Body
+
+            {
+              "device": {
+                "environment": "production",
+                "platform": "Android",
+                "token": "APA91bH9-m-MHPlU8a1L37Idcy7abWmT3vUNQD..."
+              },
+              "tags": [
+                {"name": "age", "value": "21"},
+                {"name": "lastClicked", "value": {"dateTime": 1437467779198}}
+              ],
+              "deleteTagNames": ["weight"]
+            }
+
++ Request tagQuery
+
+    + Headers
+
+            X-Api-Key: API_KEY
+
+    + Body
+
+            {
+              "tagQuery": {
+                "name": "userId",
+                "value": "123"
+              },
+              "tags": [
+                {"name": "age", "value": "21"},
+                {"name": "lastClicked", "value": {"dateTime": 1437467779198}}
+              ],
+              "deleteTagNames": ["weight"]
+            }
+
++ Response 200
+
+        {
+          "apiCallId": "123456789012345"
+        }
