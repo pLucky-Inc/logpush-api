@@ -10,10 +10,10 @@ HOST: https://push-server-api.logbk.net/v1
 指定したセグメント、あるいは全体に向けてメッセージを配信します。
 配信はAPIコール時に開始されます。
 
-`message` は80文字以内で指定します。
 `segmentId` と `customField` はオプショナルです。
-
 全体へ配信する場合には `segmentId` を指定しません。
+
+`message` は80文字以内で指定します。
 `customField` は JSON object として正しい文字列をUTF-8で255バイト以内で指定します。
 
 
