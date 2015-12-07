@@ -41,19 +41,20 @@ HOST: https://push-server-api.logbk.net/v1
 
 ### POST
 
-特定のデバイスやデバイス集合を対象にして、タグの追加、更新、削除を行う。
+特定のデバイスやデバイス集合を対象にして、タグの追加、更新、削除を行います。
 
-device と tagQuery はどちらか一方のみを指定する。
+device と tagQuery はどちらか一方のみを指定します。
 
-* device: 合致したデバイスを対象にして、タグを追加、更新、削除する。
+* device: 合致したデバイスを対象にして、タグを追加、更新、削除します。
   * environment: 開発の場合は `development`。本番の場合は `production`。
   * platform: `Android` または `iOS`
   * token:
     Android の場合は GCM の registration token。
     iOS の場合は APNs の device token (16進表記)。
-* tagQuery: タグ名とタグ値が該当したデバイス集合を対象にして、タグを追加、更新、削除する。
+* tagQuery: タグ名とタグ値が該当したデバイス集合を対象にして、タグを追加、更新、削除します。
   * name: タグ名 (文字列)
-  * value: タグ値
+  * value: 検索文字列
+    (現在は文字列一致のみが扱えます。数値のタグは文字列で検索可能です。日時のタグは検索対象にできません。)
 * tags: 登録または更新するタグの一覧
   * name: タグ名 (文字列)
   * value: タグ値
@@ -64,7 +65,7 @@ device と tagQuery はどちらか一方のみを指定する。
 * 文字列
 * `{"dateTime": 1970年1月1日 00:00:00 UTCからのミリ秒数}` 形式の JSON オブジェクト
 
-のいずれかで指定する。
+のいずれかで指定します。
 
 + Request device
 
