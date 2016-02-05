@@ -4,6 +4,7 @@
   "description": "LogPush API documentation",
   "private": true,
   "scripts": {
+    "start": "aglio -i index.apib -s",
     "test": "scripts/build.sh"
   },
   "repository": {
