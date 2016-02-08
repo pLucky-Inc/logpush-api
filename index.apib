@@ -24,7 +24,18 @@ HOST: https://push-server-api.logbk.net/v1
 たとえば送信速度制限を100通/秒数に指定した時、1通目から1000通目は即時に送信が開始され、1001通目から2000通目は10秒後に開始されます。
 
 
-+ Request
++ Request Simple request
+    + Headers
+
+            X-Api-Key: API_KEY
+
+    + Body
+
+            {
+              "message": "Hello"
+            }
+
++ Request With options
     + Headers
 
             X-Api-Key: API_KEY
