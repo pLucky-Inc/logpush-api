@@ -10,12 +10,23 @@ HOST: https://push-server-api.logbk.net/v1
 指定したセグメント、あるいは全体に向けてメッセージを配信します。
 配信はAPIコール時に開始されます。
 
-`message` には送信するメッセージを80文字以内で指定します。
+`message` (オプション)には送信するメッセージを80文字以内で指定します。
+
+`badge` (オプション) にはバッジを非負整数で指定します。
+指定しなかった場合、バッジの状態は変更されません。
+0を指定した場合、バッジは非表示になります。
+1以上を指定した場合、指定した数がバッジに表示されます。
+`badge` は現在 iOS のみに対応しています。
+
+`customField` (オプション) には JSON object として正しい文字列をUTF-8で255バイト以内で指定します。
+iOS の場合は customField に `aps` フィールドを含んだ JSON を指定することで
+LogPush が生成する `aps` フィールドを上書きすることができます。
+`aps` フィールドの詳細については
+[Local and Remote Notification Programming Guide, The Remote Notification Payload](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/TheNotificationPayload.html#//apple_ref/doc/uid/TP40008194-CH107-SW2)
+をご参照ください。
 
 `segmentId` (オプション) には配信する対象のセグメントのIDを指定します。
 全体へ配信する場合には `segmentId` を指定しません。
-
-`customField` (オプション) には JSON object として正しい文字列をUTF-8で255バイト以内で指定します。
 
 `ratePerSecond` (オプション) には送信速度制限(通/秒数)を指定します。
 指定しない場合には制限されません。
@@ -46,6 +57,26 @@ HOST: https://push-server-api.logbk.net/v1
               "message": "Hello",
               "segmentId": "0123456789",
               "customField": "{\"key\":\"value\"}",
+              "badge": 123,
+              "ratePerSecond": 1000
+            }
+
++ Response 200
+
+        {
+          "apiCallId": "2345678901"
+        }
+
++ Request iOS silent push
+
+    + Headers
+
+            X-Api-Key: API_KEY
+
+    + Body
+
+            {
+              "customField": "{\"aps\": {\"sound\": null, \"content-available\": 1}}",
               "ratePerSecond": 1000
             }
 
