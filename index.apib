@@ -19,6 +19,11 @@ HOST: https://push-server-api.logbk.net/v1
 `badge` は現在 iOS のみに対応しています。
 
 `customField` (オプション) には JSON object として正しい文字列をUTF-8で255バイト以内で指定します。
+iOS の場合は customField に `aps` フィールドを含んだ JSON を指定することで
+LogPush が生成する `aps` フィールドを上書きすることができます。
+`aps` フィールドの詳細については
+[Local and Remote Notification Programming Guide, The Remote Notification Payload](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/TheNotificationPayload.html#//apple_ref/doc/uid/TP40008194-CH107-SW2)
+をご参照ください。
 
 `segmentId` (オプション) には配信する対象のセグメントのIDを指定します。
 全体へ配信する場合には `segmentId` を指定しません。
@@ -52,6 +57,26 @@ HOST: https://push-server-api.logbk.net/v1
               "message": "Hello",
               "segmentId": "0123456789",
               "customField": "{\"key\":\"value\"}",
+              "badge": 123,
+              "ratePerSecond": 1000
+            }
+
++ Response 200
+
+        {
+          "apiCallId": "2345678901"
+        }
+
++ Request iOS silent push
+
+    + Headers
+
+            X-Api-Key: API_KEY
+
+    + Body
+
+            {
+              "customField": "{\"aps\": {\"sound\": null, \"content-available\": 1}}",
               "ratePerSecond": 1000
             }
 
