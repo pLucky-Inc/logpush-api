@@ -34,6 +34,7 @@ LogPush が生成する `aps` フィールドを上書きすることができ�
 速度制限はこのまとまりの間隔を調整します。
 たとえば送信速度制限を100通/秒数に指定した時、1通目から1000通目は即時に送信が開始され、1001通目から2000通目は10秒後に開始されます。
 
+`isTest` (オプション。デフォルト false) に true を指定すると、開発環境のデバイスにのみ配信されます。
 
 + Request Simple request
     + Headers
@@ -66,6 +67,18 @@ LogPush が生成する `aps` フィールドを上書きすることができ�
         {
           "apiCallId": "2345678901"
         }
+
++ Request Test delivery
+    + Headers
+
+            X-Api-Key: API_KEY
+
+    + Body
+
+            {
+              "message": "Hello",
+              "isTest": true
+            }
 
 + Request iOS silent push
 
