@@ -25,9 +25,6 @@ LogPush が生成する `aps` フィールドを上書きすることができ�
 [Local and Remote Notification Programming Guide, The Remote Notification Payload](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/TheNotificationPayload.html#//apple_ref/doc/uid/TP40008194-CH107-SW2)
 をご参照ください。
 
-`segmentId` (オプション) には配信する対象のセグメントのIDを指定します。
-全体へ配信する場合には `segmentId` を指定しません。
-
 `ratePerSecond` (オプション) には送信速度制限(通/秒数)を指定します。
 指定しない場合には制限されません。
 内部では1000通ごとにまとめて送信を処理しています。
@@ -35,6 +32,12 @@ LogPush が生成する `aps` フィールドを上書きすることができ�
 たとえば送信速度制限を100通/秒数に指定した時、1通目から1000通目は即時に送信が開始され、1001通目から2000通目は10秒後に開始されます。
 
 `isTest` (オプション。デフォルト false) に true を指定すると、開発環境のデバイスにのみ配信されます。
+
+`segmentId` (オプション) には配信する対象のセグメントのIDを指定します。
+全体へ配信する場合には `segmentId` を指定しません。
+::: note
+セグメントIDを指定するオプションを利用する場合は今後有償になる予定ですが、現在は無料でお使いいただけます。
+:::
 
 + Request Simple request
     + Headers
