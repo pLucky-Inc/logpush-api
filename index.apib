@@ -25,6 +25,13 @@ LogPush が生成する `aps` フィールドを上書きすることができ�
 [Local and Remote Notification Programming Guide, The Remote Notification Payload](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/TheNotificationPayload.html#//apple_ref/doc/uid/TP40008194-CH107-SW2)
 をご参照ください。
 
+`launchUrl` (オプション) には起動URL(通知をタップしたときに設定したURL)を指定します。
+::: note
+launchUrlを指定するオプションは [LogPushプレミアム](https://logpush.groovehq.com/knowledge_base/topics/logpushpuremiamunituite) で提供される機能となります。[LogPushプレミアム](https://logpush.groovehq.com/knowledge_base/topics/logpushpuremiamunituite) 提供開始までは無料でお使いいただけます。
+
+:::
+
+
 `ratePerSecond` (オプション) には送信速度制限(通/秒数)を指定します。
 指定しない場合には制限されません。
 内部では1000通ごとにまとめて送信を処理しています。
@@ -63,6 +70,7 @@ LogPush が生成する `aps` フィールドを上書きすることができ�
               "segmentId": "0123456789",
               "customField": "{\"key\":\"value\"}",
               "badge": 123,
+              "launchUrl": "http://example.com/",
               "ratePerSecond": 1000
             }
 
