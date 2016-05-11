@@ -7,7 +7,7 @@ HOST: https://push-server-api.logbk.net/v1
 
 ### POST
 
-指定したセグメント、あるいは全体に向けてメッセージを配信します。
+全体か指定したセグメント、もしくは特定のデバイスに向けてメッセージを配信します。
 配信はAPIコール時に開始されます。
 
 `message` (オプション)には送信するメッセージを80文字以内で指定します。
@@ -39,10 +39,19 @@ launchUrlオプションは [LogPushプレミアム](https://logpush.groovehq.co
 
 `isTest` (オプション。デフォルト false) に true を指定すると、開発環境のデバイスにのみ配信されます。
 
-`segmentId` (オプション) には配信する対象のセグメントのIDを指定します。
-全体へ配信する場合には `segmentId` を指定しません。
+`segmentId`/`devices` (オプション) はどちらか一方を指定のみ指定することができます。また、どちらも指定しないということもできます。
+配信したいセグメントがある場合には`segmentId`にそのセグメントのIDを指定します。
+配信したいデバイストークンのリストがある場合には`devices`にそのデバイストークンのリスト（tokens）と環境（environment）、プラットフォーム（platform）を指定します。
+* devices
+  * environment: 開発の場合は `development`。本番の場合は `production`。
+  * platform: `Android` または `iOS`
+  * tokens:
+    Android の場合は GCM の registration token、iOS の場合は APNs の device token (16進表記)のリスト。tokensは1リクエストにつき最大1000件まで指定できます。
+
+全体へ配信する場合には `segmentId`と`devices`のどちらも指定しません。
+
 ::: note
-segmentIdオプションは [LogPushプレミアム](https://logpush.groovehq.com/knowledge_base/topics/logpushpuremiamunituite) でのみ提供される機能です。
+segmentIdオプションとdevicesオプションは [LogPushプレミアム](https://logpush.groovehq.com/knowledge_base/topics/logpushpuremiamunituite) でのみ提供される機能です。
 :::
 
 + Request Simple request
@@ -66,6 +75,44 @@ segmentIdオプションは [LogPushプレミアム](https://logpush.groovehq.co
             {
               "message": "Hello",
               "segmentId": "0123456789",
+              "customField": "{\"key\":\"value\"}",
+              "badge": 123,
+              "launchUrl": "http://example.com/",
+              "ratePerSecond": 1000
+            }
+
++ Response 200
+
+        {
+          "apiCallId": "2345678901"
+        }
+
++ Request With devices options
+    + Headers
+
+            X-Api-Key: API_KEY
+
+    + Body
+
+            {
+              "message": "Hello",
+              "devices": [
+                {
+                  "platform": "iOS",
+                  "environment": "production",
+                  "tokens": [
+                    "F49FF5AF2ECCDA9C63782B49C1A28CB5...",
+                    "629AF3C693EC2F123F11559615BB690E..."
+                  ]
+                },
+                {
+                  "platform": "Android",
+                  "environment": "production",
+                  "tokens": [
+                    "APA91bH9-m-MHPlU8a1L37Idcy7abWmT3vUNQD..."
+                  ]
+                }
+              ],
               "customField": "{\"key\":\"value\"}",
               "badge": 123,
               "launchUrl": "http://example.com/",
