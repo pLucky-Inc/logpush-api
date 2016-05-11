@@ -41,12 +41,12 @@ launchUrlオプションは [LogPushプレミアム](https://logpush.groovehq.co
 
 `segmentId` (オプション)、 `devices` (オプション) は配信する対象を指定します。`segmentId` と `devices` を同時に指定することはできません。
 配信したいセグメントがある場合には`segmentId`にそのセグメントのIDを指定します。
-配信したいデバイストークンのリストがある場合には`devices`にそのデバイストークンのリスト（tokens）と環境（environment）、プラットフォーム（platform）を配列で指定します。
+配信したいデバイストークンのリストがある場合には`devices`に、デバイストークンの配列（tokens）、環境（environment）、プラットフォーム（platform）のオブジェクトの配列を指定します（要素数が一つの場合にも配列で指定します）。
 * devices
   * environment: 開発の場合は `development`。本番の場合は `production`。
   * platform: `Android` または `iOS`
   * tokens:
-    Android の場合は GCM の registration token、iOS の場合は APNs の device token (16進表記)のリスト。tokensは1リクエストにつき合計1000件まで指定できます。
+    Android の場合は GCM の registration token、iOS の場合は APNs の device token (16進表記)の配列（device tokenが一つの場合にも配列で指定）。tokensは1リクエストにつき合計1000件まで指定できます。
 
 全体へ配信する場合には `segmentId`と`devices`のどちらも指定しません。
 
