@@ -81,12 +81,6 @@ segmentIdオプションとdevicesオプションは [LogPushプレミアム](ht
               "ratePerSecond": 1000
             }
 
-+ Response 200
-
-        {
-          "apiCallId": "2345678901"
-        }
-
 + Request With devices options
     + Headers
 
@@ -119,12 +113,6 @@ segmentIdオプションとdevicesオプションは [LogPushプレミアム](ht
               "ratePerSecond": 1000
             }
 
-+ Response 200
-
-        {
-          "apiCallId": "2345678901"
-        }
-
 + Request Test delivery
     + Headers
 
@@ -154,6 +142,21 @@ segmentIdオプションとdevicesオプションは [LogPushプレミアム](ht
 
         {
           "apiCallId": "2345678901"
+        }
+
++ Response 400
+
+        {
+          "errorId": 2,
+          "error": "Bad request",
+          "message": "Some(SegmentId(1234567)) not found"
+        }
+
++ Response 403
+
+        {
+          "errorId": 2049,
+          "error": "LogPush Premium is required"
         }
 
 ## /tag
