@@ -45,8 +45,10 @@ launchUrlオプションは [LogPushプレミアム](https://logpush.groovehq.co
 * devices
   * environment: 開発の場合は `development`。本番の場合は `production`。
   * platform: `Android` または `iOS`
-  * tokens:
-    Android の場合は GCM の registration token、iOS の場合は APNs の device token (16進表記)の配列（tokenが一つの場合にも配列で指定）。tokensは1リクエストにつき合計1000件まで指定できます。まちがったtokenが指定されていた場合にも、正しいtokenにのみ配信されます。
+  * tokens: tokenの配列（tokenが一つの場合にも配列で指定）。tokensは1リクエストにつき合計1000件まで指定できます。まちがったtokenが指定されていた場合にも、正しいtokenにのみ配信されます。tokenとは以下のものです。
+      * Android の場合は GCM の registration token
+      * iOS の場合は APNs の device token の16進表記(空白` `やダッシュ`-`等、不要な文字列は含んではいけません)
+        例）`ABCDE123458D147D7B779C458424377FBCC1CB37DED6E714B8B6DE78A0853311`
 
 全体へ配信する場合には `segmentId`と`devices`のどちらも指定しません。
 
