@@ -30,6 +30,10 @@ LogPush が生成する `aps` フィールドを上書きすることができ�
 launchUrlオプションは [LogPushプレミアム](https://logpush.groovehq.com/knowledge_base/topics/logpushpuremiamunituite) でのみ提供される機能です。
 :::
 
+`androidBigPictureUrl` (オプション) にはAndroid 4.1 以降で表示可能な通知画像URLを指定します。iOSとAndroid 4.1より前では、通知は表示されますが指定した画像は表示されません。
+::: note
+androidBigPictureUrlオプションは [LogPushプレミアム](https://logpush.groovehq.com/knowledge_base/topics/logpushpuremiamunituite) でのみ提供される機能です。
+:::
 
 `ratePerSecond` (オプション) には送信速度制限(通/秒数)を指定します。
 指定しない場合には制限されません。
@@ -80,6 +84,7 @@ segmentIdオプションとdevicesオプションは [LogPushプレミアム](ht
               "customField": "{\"key\":\"value\"}",
               "badge": 123,
               "launchUrl": "http://example.com/",
+              "androidBigPictureUrl": "http://example.com/image.jpg",
               "ratePerSecond": 1000
             }
 
