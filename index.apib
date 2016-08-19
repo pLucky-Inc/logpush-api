@@ -35,6 +35,11 @@ launchUrlオプションは [LogPushプレミアム](https://logpush.groovehq.co
 androidBigPictureUrlオプションは [LogPushプレミアム](https://logpush.groovehq.com/knowledge_base/topics/logpushpuremiamunituite) でのみ提供される機能です。
 :::
 
+`title` (オプション) にはタイトルを指定します。現時点ではタイトルはAndroidでのみ反映されます。
+::: note
+titleオプションは [LogPushプレミアム](https://logpush.groovehq.com/knowledge_base/topics/logpushpuremiamunituite) でのみ提供される機能です。
+:::
+
 `ratePerSecond` (オプション) には送信速度制限(通/秒数)を指定します。
 指定しない場合には制限されません。
 内部では1000通ごとにまとめて送信を処理しています。
@@ -85,6 +90,7 @@ segmentIdオプションとdevicesオプションは [LogPushプレミアム](ht
               "badge": 123,
               "launchUrl": "http://example.com/",
               "androidBigPictureUrl": "http://example.com/image.jpg",
+              "title": "Hey!",
               "ratePerSecond": 1000
             }
 
