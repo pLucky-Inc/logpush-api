@@ -6,17 +6,26 @@ HOST: https://push-server-api.logbk.net/v1
 ## /delivery
 
 ### POST
+::: note
+POST /delivery API は一部のオプションを除いて [LogPushプレミアム](https://logpush.groovehq.com/knowledge_base/topics/logpushpuremiamunituite) でのみ提供される機能です。
+:::
 
 全体か指定したセグメント、もしくは特定のデバイスに向けてメッセージを配信します。
 配信はAPIコール時に開始されます。
 
 `message` (オプション)には送信するメッセージを80文字以内で指定します。
+::: note
+messageオプションは LogPushフリープランのお客様でもご利用いただけます。
+:::
 
 `badge` (オプション) にはバッジを非負整数で指定します。
 指定しなかった場合、バッジの状態は変更されません。
 0を指定した場合、バッジは非表示になります。
 1以上を指定した場合、指定した数がバッジに表示されます。
 `badge` は現在 iOS のみに対応しています。
+::: note
+badgeオプションは LogPushフリープランのお客様でもご利用いただけます。
+:::
 
 `customField` (オプション) には JSON object として正しい文字列をUTF-8で255バイト以内で指定します。
 iOS の場合は customField に `aps` フィールドを含んだ JSON を指定することで
@@ -24,34 +33,31 @@ LogPush が生成する `aps` フィールドを上書きすることができ�
 `aps` フィールドの詳細については
 [Local and Remote Notification Programming Guide, The Remote Notification Payload](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/TheNotificationPayload.html#//apple_ref/doc/uid/TP40008194-CH107-SW2)
 をご参照ください。
+::: note
+customFieldオプションは LogPushフリープランのお客様でもご利用いただけます。
+:::
 
 `launchUrl` (オプション) には起動URL(通知をタップしたときに設定したURL)を指定します。
-::: note
-launchUrlオプションは [LogPushプレミアム](https://logpush.groovehq.com/knowledge_base/topics/logpushpuremiamunituite) でのみ提供される機能です。
-:::
 
 `androidBigPictureUrl` (オプション) にはAndroid 4.1 以降で表示可能な通知画像URLを指定します。iOSとAndroid 4.1より前では、通知は表示されますが指定した画像は表示されません。
-::: note
-androidBigPictureUrlオプションは [LogPushプレミアム](https://logpush.groovehq.com/knowledge_base/topics/logpushpuremiamunituite) でのみ提供される機能です。
-:::
 
 `iosAttachmentUrl` (オプション) にはiOS 10以降で表示可能な通知画像URLを指定します。iOS 9以前とAndroidでは、通知は表示されますが指定した画像は表示されません。
-::: note
-iosAttachmentUrlオプションは [LogPushプレミアム](https://logpush.groovehq.com/knowledge_base/topics/logpushpuremiamunituite) でのみ提供される機能です。
-:::
 
 `title` (オプション) にはタイトルを指定します。現時点ではタイトルはAndroidでのみ反映されます。
-::: note
-titleオプションは [LogPushプレミアム](https://logpush.groovehq.com/knowledge_base/topics/logpushpuremiamunituite) でのみ提供される機能です。
-:::
 
 `ratePerSecond` (オプション) には送信速度制限(通/秒数)を指定します。
 指定しない場合には制限されません。
 内部では1000通ごとにまとめて送信を処理しています。
 速度制限はこのまとまりの間隔を調整します。
 たとえば送信速度制限を100通/秒数に指定した時、1通目から1000通目は即時に送信が開始され、1001通目から2000通目は10秒後に開始されます。
+::: note
+ratePerSecondオプションは LogPushフリープランのお客様でもご利用いただけます。
+:::
 
 `isTest` (オプション。デフォルト false) に true を指定すると、開発環境のデバイスにのみ配信されます。
+::: note
+isTestオプションは LogPushフリープランのお客様でもご利用いただけます。
+:::
 
 `segmentId` (オプション)、 `devices` (オプション) は配信する対象を指定します。`segmentId` と `devices` を同時に指定することはできません。
 配信したいセグメントがある場合には`segmentId`にそのセグメントのIDを指定します。
@@ -65,10 +71,6 @@ titleオプションは [LogPushプレミアム](https://logpush.groovehq.com/kn
         例）`ABCDE123458D147D7B779C458424377FBCC1CB37DED6E714B8B6DE78A0853311`
 
 全体へ配信する場合には `segmentId`と`devices`のどちらも指定しません。
-
-::: note
-segmentIdオプションとdevicesオプションは [LogPushプレミアム](https://logpush.groovehq.com/knowledge_base/topics/logpushpuremiamunituite) でのみ提供される機能です。
-:::
 
 + Request Simple request
     + Headers
