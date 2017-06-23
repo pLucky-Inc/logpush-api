@@ -1,76 +1,83 @@
 FORMAT: 1A
 HOST: https://push-server-api.logbk.net/v1
 
-# LogPush Server API
-
-## /delivery
-
-### POST
+# Group LogPush Server API
 ::: note
-POST /delivery API は一部のオプションを除いて [LogPushプレミアム](https://logpush.groovehq.com/knowledge_base/topics/logpushpuremiamunituite) でのみ提供される機能です。
+* LogPush Server APIは一部を除いて [LogPushプレミアム](https://logpush.groovehq.com/knowledge_base/topics/logpushpuremiamunituite) でのみ提供される機能です。
+* LogPush Server APIはアプリケーション毎に **1分間に最大10回まで** 利用することが出来ます。制限回数を超えた場合のAPIの挙動は保障されず、利用状況によりAPIのご利用を停止して頂くことになりますのでご注意下さい。
 :::
 
-全体か指定したセグメント、もしくは特定のデバイスに向けてメッセージを配信します。
+## delivery API [/delivery]
+
+### プッシュ通知の配信 [POST]
+::: note
+POST /delivery API は一部を除いて [LogPushプレミアム](https://logpush.groovehq.com/knowledge_base/topics/logpushpuremiamunituite) でのみ提供される機能です。
+:::
+
+全体か指定したセグメントもしくは特定のデバイスに向けてメッセージを配信します。
 配信はAPIコール時に開始されます。
 
-`message` (オプション)には送信するメッセージを80文字以内で指定します。
+
+#### リクエストパラメータ（共通）
+
+* **message** (オプション)
+  * 送信するメッセージを80文字以内で指定します。
+
+* **badge** (オプション)
+  * バッジを非負整数で指定します。
+    指定しなかった場合、バッジの状態は変更されません。
+    0を指定した場合、バッジは非表示になります。
+    1以上を指定した場合、指定した数がバッジに表示されます。
+  * badgeは現在 iOS のみに対応しています。
+
+* **customField** (オプション)
+  * JSON object として正しい文字列をUTF-8で255バイト以内で指定します。
+  * iOS の場合は customField に `aps` フィールドを含んだ JSON を指定することでLogPush が生成する `aps` フィールドを上書きすることができます。
+    `aps` フィールドの詳細については
+    [Local and Remote Notification Programming Guide, The Remote Notification Payload](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/TheNotificationPayload.html#//apple_ref/doc/uid/TP40008194-CH107-SW2)
+    をご参照ください。
+
+* **ratePerSecond** (オプション)
+  * 送信速度制限(通/秒数)を指定します。
+    指定しない場合には制限されません。
+    内部では1000通ごとにまとめて送信を処理しており、速度制限はこのまとまりの間隔を調整します。
+    たとえば送信速度制限を100通/秒数に指定した時、1通目から1000通目は即時に送信が開始され、1001通目から2000通目は10秒後に開始されます。
+
+* **isTest** (オプション。デフォルト false)
+  * true を指定すると、開発環境のデバイスにのみ配信されます。
+
+
+#### リクエストパラメータ（LogPushプレミアムプラン専用）
+
+* **launchUrl** (オプション)
+  * 起動URL(通知をタップしたときに設定したURL)を指定します。
+
+* **androidBigPictureUrl** (オプション)
+  * Android 4.1 以降で表示可能な通知画像URLを指定します。iOSとAndroid 4.1より前では、通知は表示されますが指定した画像は表示されません。
+
+* **iosAttachmentUrl** (オプション)
+  * iOS 10以降で表示可能な通知画像URLを指定します。iOS 9以前とAndroidでは、通知は表示されますが指定した画像は表示されません。
+
+* **title** (オプション)
+  * タイトルを指定します。
+    タイトルはAndroidおよびiOS10以降でのみ反映されます。
+
+* **segmentId** (オプション)または **devices** (オプション)
+  * 配信する対象を指定します。segmentIdとdevicesを同時に指定することはできません。
+  * ***配信したいセグメントがある場合***
+    * segmentIdに、セグメントのIDを指定します。
+  * ***配信したいデバイストークンのリストがある場合***
+    * devicesに、デバイストークンの配列（tokens）、環境（environment）、プラットフォーム（platform）のオブジェクトの配列を指定します（要素数が一つの場合にも配列で指定します）。
+    * devices
+      * environment: 開発の場合は `development`。本番の場合は `production`。
+      * platform: `Android` または `iOS`
+      * tokens: tokenの配列（tokenが一つの場合にも配列で指定）。tokensは1リクエストにつき合計1000件まで指定できます。まちがったtokenが指定されていた場合にも、正しいtokenにのみ配信されます。tokenとは以下のものです。
+          * Android の場合は GCM の registration token
+          * iOS の場合は APNs の device token の16進表記(空白` `やダッシュ`-`等、不要な文字列は含んではいけません)
+            例）ABCDE123458D147D7B779C458424377FBCC1CB37DED6E714B8B6DE78A0853311
 ::: note
-messageオプションは LogPushフリープランのお客様でもご利用いただけます。
+全体へ配信する場合には、segmentIdとdevicesのどちらも指定しません。
 :::
-
-`badge` (オプション) にはバッジを非負整数で指定します。
-指定しなかった場合、バッジの状態は変更されません。
-0を指定した場合、バッジは非表示になります。
-1以上を指定した場合、指定した数がバッジに表示されます。
-`badge` は現在 iOS のみに対応しています。
-::: note
-badgeオプションは LogPushフリープランのお客様でもご利用いただけます。
-:::
-
-`customField` (オプション) には JSON object として正しい文字列をUTF-8で255バイト以内で指定します。
-iOS の場合は customField に `aps` フィールドを含んだ JSON を指定することで
-LogPush が生成する `aps` フィールドを上書きすることができます。
-`aps` フィールドの詳細については
-[Local and Remote Notification Programming Guide, The Remote Notification Payload](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/TheNotificationPayload.html#//apple_ref/doc/uid/TP40008194-CH107-SW2)
-をご参照ください。
-::: note
-customFieldオプションは LogPushフリープランのお客様でもご利用いただけます。
-:::
-
-`launchUrl` (オプション) には起動URL(通知をタップしたときに設定したURL)を指定します。
-
-`androidBigPictureUrl` (オプション) にはAndroid 4.1 以降で表示可能な通知画像URLを指定します。iOSとAndroid 4.1より前では、通知は表示されますが指定した画像は表示されません。
-
-`iosAttachmentUrl` (オプション) にはiOS 10以降で表示可能な通知画像URLを指定します。iOS 9以前とAndroidでは、通知は表示されますが指定した画像は表示されません。
-
-`title` (オプション) にはタイトルを指定します。現時点ではタイトルはAndroidでのみ反映されます。
-
-`ratePerSecond` (オプション) には送信速度制限(通/秒数)を指定します。
-指定しない場合には制限されません。
-内部では1000通ごとにまとめて送信を処理しています。
-速度制限はこのまとまりの間隔を調整します。
-たとえば送信速度制限を100通/秒数に指定した時、1通目から1000通目は即時に送信が開始され、1001通目から2000通目は10秒後に開始されます。
-::: note
-ratePerSecondオプションは LogPushフリープランのお客様でもご利用いただけます。
-:::
-
-`isTest` (オプション。デフォルト false) に true を指定すると、開発環境のデバイスにのみ配信されます。
-::: note
-isTestオプションは LogPushフリープランのお客様でもご利用いただけます。
-:::
-
-`segmentId` (オプション)、 `devices` (オプション) は配信する対象を指定します。`segmentId` と `devices` を同時に指定することはできません。
-配信したいセグメントがある場合には`segmentId`にそのセグメントのIDを指定します。
-配信したいデバイストークンのリストがある場合には`devices`に、デバイストークンの配列（tokens）、環境（environment）、プラットフォーム（platform）のオブジェクトの配列を指定します（要素数が一つの場合にも配列で指定します）。
-* devices
-  * environment: 開発の場合は `development`。本番の場合は `production`。
-  * platform: `Android` または `iOS`
-  * tokens: tokenの配列（tokenが一つの場合にも配列で指定）。tokensは1リクエストにつき合計1000件まで指定できます。まちがったtokenが指定されていた場合にも、正しいtokenにのみ配信されます。tokenとは以下のものです。
-      * Android の場合は GCM の registration token
-      * iOS の場合は APNs の device token の16進表記(空白` `やダッシュ`-`等、不要な文字列は含んではいけません)
-        例）`ABCDE123458D147D7B779C458424377FBCC1CB37DED6E714B8B6DE78A0853311`
-
-全体へ配信する場合には `segmentId`と`devices`のどちらも指定しません。
 
 + Request Simple request
     + Headers
@@ -179,42 +186,50 @@ isTestオプションは LogPushフリープランのお客様でもご利用い
           "error": "LogPush Premium is required"
         }
 
-## /tag
 
-### POST
+## tag API [/tag]
+
+### タグの追加・更新・削除 [POST]
+
 ::: note
-POST /tag API は2017年2月10日より [LogPushプレミアム](https://logpush.groovehq.com/knowledge_base/topics/logpushpuremiamunituite) でのみ提供される機能になります。
+POST /tag API は[LogPushプレミアム](https://logpush.groovehq.com/knowledge_base/topics/logpushpuremiamunituite) でのみ提供される機能です。
 :::
 
 特定のデバイスやデバイス集合を対象にして、タグの追加、更新、削除を行います。
 
-device と tagQuery はどちらか一方のみを指定します。
+#### リクエストパラメータ
+* **device** または **tagQuery**
+  * 指定したデバイス集合を対象にして、タグを追加、更新、削除します。
+  * deviceまたはtagQueryはどちらか一方のみを指定します。
+  * ***指定したデバイスを対象にする場合***
+    * device
+      * environment: 開発の場合は `development`。本番の場合は `production`。
+      * platform: `Android` または `iOS`
+      * token:
+        Android の場合は GCM の registration token。
+        iOS の場合は APNs の device token (16進表記)。
+  * ***タグ名とタグ値の条件に該当したデバイス集合を対象にする場合***
+    * 最大100までのデバイスを1リクエストで更新します。
+      100より多くのデバイスが該当した場合、タグは追加、更新、削除されません。
+    * tagQuery
+      * name: タグ名
+      * value: 検索文字列
+        (現在は文字列一致のみが扱えます。数値のタグは文字列で検索可能です。日時のタグは検索対象にできません。)
+* **tags**
+  * 登録または更新するタグ（タグ名とタグ値）の配列。最大100個。
+  * tags
+    * name: タグ名
+    * value: タグ値
+* **deleteTagNames**
+  * 削除するタグ名の配列。最大100個。
 
-* device: 合致したデバイスを対象にして、タグを追加、更新、削除します。
-  * environment: 開発の場合は `development`。本番の場合は `production`。
-  * platform: `Android` または `iOS`
-  * token:
-    Android の場合は GCM の registration token。
-    iOS の場合は APNs の device token (16進表記)。
-* tagQuery: タグ名とタグ値が該当したデバイス集合を対象にして、タグを追加、更新、削除します。
-  最大100までのデバイスを1リクエストで更新します。
-  100より多くのデバイスが該当した場合、タグは追加、更新、削除されません。
-  * name: タグ名
-  * value: 検索文字列
-    (現在は文字列一致のみが扱えます。数値のタグは文字列で検索可能です。日時のタグは検索対象にできません。)
-* tags: 登録または更新するタグの一覧。最大100個。
-  * name: タグ名
-  * value: タグ値
-* deleteTagNames: 削除するタグの一覧。最大100個。
-
+:::note
 タグ名は `[a-zA-Z0-9_]` からなる1文字以上64文字以下の文字列で指定します。
 
-タグ値は
-
+タグ値は下記のいずれかで指定します。
 * 文字列
 * `{"dateTime": 1970年1月1日 00:00:00 UTCからのミリ秒数}` 形式の JSON オブジェクト
-
-のいずれかで指定します。
+:::
 
 + Request device
 
