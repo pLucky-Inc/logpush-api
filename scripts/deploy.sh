@@ -16,16 +16,18 @@ echo "$DOMAIN" > CNAME
 git init
 
 # inside this git repo we'll pretend to be a new user
-git config user.name "Travis CI"
-git config user.email "kawachi@p-lucky.net"
+git config user.name "Circle CI"
+git config user.email "hayashi@p-lucky.net"
 
 # The first and only commit to this new Git repo contains all the
 # files present with the commit message "Deploy to GitHub Pages".
 git add .
-git commit -m "Deploy to GitHub Pages"
+git commit -m "Deploy to GitHub Pages [ci skip]"
+
+# Add remote repository
+git remote add origin "git@github.com:pLucky-Inc/logpush-api-docs.git"
 
 # Force push from the current repo's master branch to the remote
 # repo's gh-pages branch. (All previous history on the gh-pages branch
-# will be lost, since we are overwriting it.) We redirect any output to
-# /dev/null to hide any sensitive credential data that might otherwise be exposed.
-git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:gh-pages > /dev/null 2>&1
+# will be lost, since we are overwriting it.)
+git push --force --quiet origin master:gh-pages
