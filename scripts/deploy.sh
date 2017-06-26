@@ -17,12 +17,12 @@ git init
 
 # inside this git repo we'll pretend to be a new user
 git config user.name "Travis CI"
-git config user.email "kawachi@p-lucky.net"
+git config user.email "hayashi@p-lucky.net"
 
 # The first and only commit to this new Git repo contains all the
 # files present with the commit message "Deploy to GitHub Pages".
 git add .
-git commit -m "Deploy to GitHub Pages"
+git commit -m "Deploy to GitHub Pages [ci skip]"
 
 # Add remote repository
 git remote add origin "git@github.com:pLucky-Inc/logpush-api-docs.git"
