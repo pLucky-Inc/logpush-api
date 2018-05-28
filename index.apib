@@ -1,18 +1,14 @@
 FORMAT: 1A
 HOST: https://push-server-api.logbk.net/v1
 
-# Group LogPush Server API
+# Group LogBase Server API
 ::: note
-* LogPush Server APIは一部を除いて [LogPushプレミアム](https://logpush.groovehq.com/knowledge_base/topics/logpushpuremiamunituite) でのみ提供される機能です。
-* LogPush Server APIはアプリケーション毎に **1分間に最大10回まで** 利用することが出来ます。制限回数を超えた場合のAPIの挙動は保障されず、利用状況によりAPIのご利用を停止して頂くことになりますのでご注意下さい。
+* LogBase Server APIはアプリケーション毎に **1分間に最大10回まで** 利用することが出来ます。制限回数を超えた場合のAPIの挙動は保障されず、利用状況によりAPIのご利用を停止して頂くことになりますのでご注意下さい。
 :::
 
 ## delivery API [/delivery]
 
 ### プッシュ通知の配信 [POST]
-::: note
-POST /delivery API は一部を除いて [LogPushプレミアム](https://logpush.groovehq.com/knowledge_base/topics/logpushpuremiamunituite) でのみ提供される機能です。
-:::
 
 全体か指定したセグメントもしくは特定のデバイスに向けてメッセージを配信します。
 配信はAPIコール時に開始されます。
@@ -32,9 +28,9 @@ POST /delivery API は一部を除いて [LogPushプレミアム](https://logpus
 
 * **customField** (オプション)
   * JSON object として正しい文字列をUTF-8で255バイト以内で指定します。
-  * iOS の場合は customField に `aps` フィールドを含んだ JSON を指定することでLogPush が生成する `aps` フィールドを上書きすることができます。
+  * iOS の場合は customField に `aps` フィールドを含んだ JSON を指定することでLogBase が生成する `aps` フィールドを上書きすることができます。
     `aps` フィールドの詳細については
-    [Local and Remote Notification Programming Guide, The Remote Notification Payload](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/TheNotificationPayload.html#//apple_ref/doc/uid/TP40008194-CH107-SW2)
+    [LocalおよびPush Notificationプログラミングガイド ペイロードキーのリファレンス](https://developer.apple.com/jp/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/PayloadKeyReference.html#//apple_ref/doc/uid/TP40008194-CH17-SW1)
     をご参照ください。
 
 * **ratePerSecond** (オプション)
@@ -47,7 +43,7 @@ POST /delivery API は一部を除いて [LogPushプレミアム](https://logpus
   * true を指定すると、開発環境のデバイスにのみ配信されます。
 
 
-#### リクエストパラメータ（LogPushプレミアムプラン専用）
+#### リクエストパラメータ
 
 * **launchUrl** (オプション)
   * 起動URL(通知をタップしたときに設定したURL)を指定します。
@@ -179,21 +175,10 @@ POST /delivery API は一部を除いて [LogPushプレミアム](https://logpus
           "message": "Some(SegmentId(1234567)) not found"
         }
 
-+ Response 403
-
-        {
-          "errorId": 2049,
-          "error": "LogPush Premium is required"
-        }
-
 
 ## tag API [/tag]
 
 ### タグの追加・更新・削除 [POST]
-
-::: note
-POST /tag API は[LogPushプレミアム](https://logpush.groovehq.com/knowledge_base/topics/logpushpuremiamunituite) でのみ提供される機能です。
-:::
 
 特定のデバイスやデバイス集合を対象にして、タグの追加、更新、削除を行います。
 
