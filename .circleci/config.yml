@@ -1,6 +1,6 @@
 version: 2
 jobs:
-    checkout_and_build:
+    build:
         docker:
             - image: "circleci/node:8.11.2"
               environment:
@@ -25,13 +25,13 @@ jobs:
                 root: "."
                 paths:
                     - "target"
-                    - "scripts"
     deploy:
         docker:
             - image: "circleci/node:8.11.2"
               environment:
                   TZ: "/usr/share/zoneinfo/Asia/Tokyo"
         steps:
+            - checkout
             - attach_workspace:
                 at: "."
             - run:
@@ -41,10 +41,10 @@ workflows:
     version: 2
     build_deploy_workflow:
         jobs:
-            - checkout_and_build
+            - build
             - deploy:
                 requires:
-                    - checkout_and_build
+                    - build
                 filters:
                     branches:
                         only:
