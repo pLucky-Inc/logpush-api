@@ -21,12 +21,19 @@ jobs:
                 command: ./scripts/build.sh
             - store_artifacts:
                 path: "./target"
+            - persist_to_workspace:
+                root: "."
+                paths:
+                    - "target"
+                    - "scripts"
     deploy:
         docker:
             - image: "circleci/node:8.11.2"
               environment:
                   TZ: "/usr/share/zoneinfo/Asia/Tokyo"
         steps:
+            - attach_workspace:
+                at: "."
             - run:
                 name: deploy
                 command: ./scripts/deploy.sh

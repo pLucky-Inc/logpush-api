@@ -7,8 +7,9 @@ TARGET_DIR="$BASE_DIR/target"
 
 DOMAIN="push-api-docs.logbk.net"
 
-rm -rf "$TARGET_DIR"
-"$BASE_DIR/scripts/build.sh"
+if [ ! -e $TARGET_DIR ]; then
+  "$BASE_DIR/scripts/build.sh"
+fi
 
 # go to the out directory and create a *new* Git repo
 cd "$TARGET_DIR"
